@@ -37,7 +37,7 @@ fs.mkdirSync(shotDir, { recursive: true });
       const before = assertions;
       check(await page.$('#mainFour'), '首页四项');
       check(await page.$$eval('#mainFour .eyebrow', es => es.map(e => e.textContent).join(',')) === '本月主势,事业,财运,一句断语', '只显示四项');
-      check(await page.$eval('#verdict', e => e.textContent.includes('亥') && e.textContent.includes('申中壬')), '己亥断语');
+      check(await page.$eval('#verdict', e => e.textContent.includes('亥') && e.textContent.includes('伤官见官')), '己亥断语');
       check(await page.evaluate(() => document.querySelector('#careerHome').textContent !== document.querySelector('#wealthHome').textContent), '事业财运不同');
       check(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), '不横向溢出');
       await page.click('#professional > summary');
