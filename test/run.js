@@ -62,7 +62,7 @@ test('页面仍是单文件离线', () => {
   check(data.range[0] === '2026-11-01' && data.range[1] === '2027-12-31', '日期范围被改');
   check(data.natal.pillars_fixed.join(' ') === '壬午 乙巳 壬寅 乙巳', '本命被改');
   check(data.natal.dayun_fixed[0].join(',') === '戊申,2023,2032', '大运被改');
-  check(data.version === 'ZS-v4.3', '版本');
+  check(data.version === 'ZS-v4.4', '版本');
   check(/00:00/.test(data.dateRule) && /23:00至23:59/.test(data.dateRule), '日界说明');
 });
 
@@ -181,7 +181,8 @@ test('2026-11-15 己亥：本气禄与申中长生分开，印未透', () => {
   check(r.month.mechanisms.waterBen.some(x => x.z === '亥') && r.month.mechanisms.waterZhong.some(x => x.z === '申'), '根的分类');
   check(r.month.mechanisms.waterZhong.every(x => x.qi === '中气'), '申不是本气水根');
   check(r.month.key.length === 2, '依据仍是两条');
-  check(r.month.careerText !== r.month.wealth && r.month.careerText.includes('官') && r.month.wealth.includes('根'), '事业看官，财运看根');
+  check(r.month.careerText !== r.month.wealth && r.month.careerText.includes('正官') && r.month.wealth.includes('根'), '事业看正官，财运看根');
+  check(/己正官/.test(r.month.careerText+r.month.verdict) && /戊七杀/.test(r.month.careerText) && !/己七杀|伤官见官的底子/.test(r.month.careerText+r.month.verdict), '己是正官，戊才是七杀');
   check(!/^(改善|加重|未决|主矛盾未改)/.test(r.month.verdict), '不再用四个标签起句');
 });
 
@@ -191,7 +192,7 @@ test('2026-12-15 庚子：刃、长生、余气和乙庚争合都在，印未被
   const v = r.month.verdict;
   check(v.includes('刃') && v.includes('申中壬') && v.includes('长生'), '刃与长生');
   check(v.includes('庚') && v.includes('乙') && v.includes('争合'), '透印与伤官相牵');
-  check(v.includes('丙') && v.includes('救应没有生效') && v.includes('不能把印写成已经成格'), '印未救成');
+  check(v.includes('丙') && v.includes('印还在') && !/没有生效|已经无效/.test(v), '丙来制只是牵制，印还在');
   check(r.month.careerText !== r.month.wealth, '事业与财运不是同一句');
   check(!v.includes('克尽') && !v.includes('失效') && !v.includes('偏有利'), '没有旧结论');
   check(r.month.mechanisms.sealPath === 'tangled' && r.month.mechanisms.source === false, '牵住不等于无效');
@@ -221,7 +222,7 @@ test('同月不同年：子月的庚与壬、酉月的丙辛合与无合', () =>
   const b = E.atPillars('丁未', '壬子').month;
   check(a.verdict !== b.verdict, '两个子月被写成同一句');
   check(a.verdict.includes('庚') && a.verdict.includes('乙') && !b.verdict.includes('庚偏印'), '庚子的印是庚');
-  check(b.verdict.includes('丁') && b.mechanisms.sealPath === 'hidden' && !/庚/.test(b.verdict), '壬子没有透出庚印');
+  check(b.verdict.includes('丁') && b.mechanisms.sealPath === 'hidden' && !/庚偏印透出/.test(b.verdict) && /藏/.test(b.verdict+b.careerText+b.wealth), '壬子月不透庚，藏印仍在');
   check(a.mechanisms.waterBen.some(x => x.z === '子') && b.mechanisms.waterBen.some(x => x.z === '子'), '两边都有刃');
   check(a.mechanisms.waterZhong.some(x => x.z === '申') && b.mechanisms.waterZhong.some(x => x.z === '申'), '两边都保留申中壬');
   const x = E.atPillars('丙午', '辛酉').month;
@@ -229,7 +230,7 @@ test('同月不同年：子月的庚与壬、酉月的丙辛合与无合', () =>
   const z = E.atPillars('丁未', '己酉').month;
   check(x.verdict !== y.verdict && y.verdict !== z.verdict, '酉月三种岁运没有分开');
   check(x.mechanisms.sealPath === 'tangled' && x.verdict.includes('丙') && x.verdict.includes('相合') && !x.verdict.includes('乙'), '辛合的是丙，不是乙');
-  check(x.verdict.includes('酉中辛') && x.verdict.includes('救应没有生效') && !/克尽|偏有利/.test(x.verdict), '有根的财没有把印勾销');
+  check(x.verdict.includes('酉中辛') && /印还在|不是合死|不是克尽/.test(x.verdict) && !/没有生效|已经无效/.test(x.verdict), '有根的财没有把印勾销');
   check(x.verdict !== y.verdict && x.careerText !== y.careerText, '同一辛酉，岁运不同则论断不同');
   check(y.mechanisms.sealPath === 'open' && y.mechanisms.source === false, '路径清楚也不再使用旧的有效开关');
   check(y.verdict.includes('克伤官') && y.wealth.includes('生财'), '印生身与财源分开说');
@@ -300,7 +301,7 @@ test('同季令不同透干，结论不是季令函数', () => {
   const water = ['壬亥', '己亥', '丙子', '庚子'].map(gz => E.atPillars('丙午', gz).month);
   check(water.every(m => m.mechanisms.flow === '水'), '都是水月');
   check(new Set(water.map(m => m.verdict)).size === 4, '四个水月不能一句套完');
-  check(water[0].verdict.includes('本气根') && water[2].verdict.includes('财'), '壬亥论根，丙子必须同时看见财');
+  check(water[0].verdict.includes('禄') && !water[0].verdict.includes('偏财') && water[2].verdict.includes('财') && water[2].verdict.includes('刃'), '壬亥论禄，丙子同时看见财和刃');
   const wood = [E.atPillars('丁未', '壬寅').month, E.atPillars('丁未', '乙卯').month];
   check(wood[0].mechanisms.flow === '木' && wood[1].mechanisms.flow === '木' && wood[0].verdict !== wood[1].verdict, '寅卯不能因同属木而同断');
   const metal = [E.atPillars('壬子', '辛酉').month, E.atPillars('丁未', '己酉').month];
@@ -331,8 +332,8 @@ test('事业与财运分开，救应不足不成格', () => {
   const blocked = E.atPillars('丙午', '辛酉').month;
   const yun = E.atPillars('丙午', '庚子').dayun;
   check(openSeal.mechanisms.sealPath === 'open' && openSeal.careerText.includes('印') && openSeal.wealth.includes('生财'), '印路通时事业取印、财运取生财');
-  check(blocked.mechanisms.sealPath !== 'open' && /没有生效|没有形成有效救应|不能写成已经成格|不能说格已救成/.test(blocked.verdict + blocked.careerText), '印被合制时不写成已成格');
-  check(/没有生效|已经成格/.test(yun.verdict) && yun.verdict.includes('申中壬') && yun.careerText !== yun.wealth, '大运藏印不算已经成格，事业财运分开');
+  check(blocked.mechanisms.sealPath !== 'open' && /印还在|不是合死|不是克尽/.test(blocked.verdict+blocked.careerText) && !/没有生效|已经无效/.test(blocked.verdict+blocked.careerText), '干合或透财不把印写成无效');
+  check(/藏/.test(yun.verdict) && /不是没有/.test(yun.verdict) && yun.verdict.includes('七杀') && !/伤官见官|没有生效/.test(yun.verdict+yun.careerText) && yun.careerText!==yun.wealth, '大运是七杀配藏印，藏印不是零');
   const strike = E.atPillars('壬子', '甲午').month;
   check(strike.verdict.includes('冲') && strike.wealth.includes('根') && strike.careerText.includes('官'), '冲根时财运看根、事业看官');
 });
