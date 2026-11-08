@@ -1,21 +1,21 @@
 {
   "passed": true,
   "cases": 8,
-  "assertions": 42,
+  "assertions": 48,
   "requests": [],
   "errors": [],
   "caseList": [
     {
       "name": "视口 320",
-      "assertions": 8
+      "assertions": 10
     },
     {
       "name": "视口 390",
-      "assertions": 8
+      "assertions": 10
     },
     {
       "name": "视口 1280",
-      "assertions": 8
+      "assertions": 10
     },
     {
       "name": "23 点与 00 点的展示和复制",
