@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "cases": 22,
+  "assertions": 2112,
+  "caseList": [
+    {
+      "name": "引擎不写死测试月份，也不保留 23 点改日干",
+      "assertions": 5
+    },
+    {
+      "name": "页面仍是单文件离线",
+      "assertions": 6
+    },
+    {
+      "name": "日界五时点 2026-11-15",
+      "assertions": 18
+    },
+    {
+      "name": "日界五时点 2026-12-31",
+      "assertions": 18
+    },
+    {
+      "name": "日界五时点 2027-02-03",
+      "assertions": 18
+    },
+    {
+      "name": "日界五时点 2027-11-07",
+      "assertions": 19
+    },
+    {
+      "name": "2027 立冬交在 23 点内，只换月，不换日干和时干",
+      "assertions": 5
+    },
+    {
+      "name": "立春换年不带动日柱和时柱",
+      "assertions": 4
+    },
+    {
+      "name": "十二节边界都按表上的秒切换，日时保持连续",
+      "assertions": 136
+    },
+    {
+      "name": "表内 426 日的日柱连续，正午和 23:30 都对得上",
+      "assertions": 1703
+    },
+    {
+      "name": "系统时区 UTC 不改变排柱",
+      "assertions": 10
+    },
+    {
+      "name": "系统时区 Asia/Shanghai 不改变排柱",
+      "assertions": 10
+    },
+    {
+      "name": "系统时区 America/Los_Angeles 不改变排柱",
+      "assertions": 10
+    },
+    {
+      "name": "系统时区 Pacific/Kiritimati 不改变排柱",
+      "assertions": 10
+    },
+    {
+      "name": "2026-11-15 己亥：本气禄与申中长生分开，印未透",
+      "assertions": 11
+    },
+    {
+      "name": "2026-12-15 庚子：刃、长生、余气和乙庚争合都在，印未被勾销",
+      "assertions": 8
+    },
+    {
+      "name": "2027-02-15 壬寅：木令泄身，申中壬不算亥子，流日不改这条月断",
+      "assertions": 11
+    },
+    {
+      "name": "同月不同年：子月的庚与壬、酉月的丙辛合与无合",
+      "assertions": 11
+    },
+    {
+      "name": "亥月跨年：己亥与辛亥不是同一条印",
+      "assertions": 5
+    },
+    {
+      "name": "流日更换不改年月对象",
+      "assertions": 26
+    },
+    {
+      "name": "原局与戊申运的底子不变，冲合不拔申",
+      "assertions": 7
+    },
+    {
+      "name": "范围内每个节令月都能算出，相邻月令不同则断语不同",
+      "assertions": 61
+    }
+  ]
+}

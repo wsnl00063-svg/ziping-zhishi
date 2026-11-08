@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "cases": 8,
+  "assertions": 42,
+  "requests": [],
+  "errors": [],
+  "caseList": [
+    {
+      "name": "视口 320",
+      "assertions": 8
+    },
+    {
+      "name": "视口 390",
+      "assertions": 8
+    },
+    {
+      "name": "视口 1280",
+      "assertions": 8
+    },
+    {
+      "name": "23 点与 00 点的展示和复制",
+      "assertions": 8
+    },
+    {
+      "name": "交节与原局入口",
+      "assertions": 5
+    },
+    {
+      "name": "浏览器时区 UTC",
+      "assertions": 1
+    },
+    {
+      "name": "浏览器时区 America/Los_Angeles",
+      "assertions": 1
+    },
+    {
+      "name": "浏览器时区 Asia/Tokyo",
+      "assertions": 1
+    }
+  ]
+}
